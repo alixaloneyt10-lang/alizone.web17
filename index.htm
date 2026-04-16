@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amazon Clone</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
+body{background:#f5f5f5;}
+
+/* NAVBAR */
+.navbar{
+  position:sticky;
+  top:0;
+  height:59px;
+  background:black;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 10px;
+  z-index:1000;
+}
+
+.logo{color:white;font-size:27px;font-weight:bold;}
+.logo span{color:orange;}
+
+/* SEARCH */
+.search-box{display:flex;width:45%;}
+.search-box select{width:80px;height:45px;border: none;border-top-left-radius: 3px;border-bottom-left-radius: 3px;}
+.search-box input{width:100%;height:45px;padding:10px;border:none;}
+.search-btn{color: white;background:orange;padding:12px;cursor:pointer;font-size:1.2rem;border-top-left-radius: 3px;border-bottom-left-radius: 3px;}
+
+.mobile-search{
+  display:none;
+  color:white;
+  font-size:20px;
+  cursor:pointer;
+}
+
+/* NAV LINKS */
+.nav-links{display:flex;gap:26px;color:white;}
+.nav-links li{list-style:none;cursor:pointer;}
+.nav-links li:hover{color:orange;}
+
+.menu{display:none;color:white;font-size:25px;cursor:pointer;}
+
+/* SEARCH OVERLAY */
+.search-overlay{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:black;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  z-index:2000;
+}
+
+.search-overlay input{
+  width:70%;
+  padding:15px;
+  font-size:18px;
+}
+
+.search-overlay button{
+  padding:15px;
+  background:orange;
+  border:none;
+}
+
+/* SLIDER */
+.slider{height:280px;overflow:hidden;position:relative;}
+.slides{display:flex;transition:0.5s;}
+.slide{min-width:100%;}
+.slide img{width:100%;height:280px;object-fit:cover;}
+
+.arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:30px;
+  color:white;
+  background:rgba(0,0,0,0.5);
+  padding:10px;
+  cursor:pointer;
+}
+
+.left{left:10px;}
+.right{right:10px;}
+
+.dots{
+  position:absolute;
+  bottom:10px;
+  width:100%;
+  text-align:center;
+}
+
+.dot{
+  height:10px;
+  width:10px;
+  background: orange;
+  display:inline-block;
+  margin:5px;
+  border-radius:50%;
+  cursor:pointer;
+}
+
+/* SECTION */
+.section{padding:20px;}
+.section h2{margin-bottom:5px;}
+.section hr{margin-bottom:15px;border:1px solid #ddd;}
+
+/* HORIZONTAL SCROLL */
+.scroll{
+  display:flex;
+  overflow-x:auto;
+  gap:15px;
+}
+
+.scroll::-webkit-scrollbar{
+  height:6px;
+}
+.scroll::-webkit-scrollbar-thumb{
+  background:orange;
+  border-radius:10px;
+}
+
+/* BOX */
+.box{
+  min-width:150px;
+  background:white;
+  padding:10px;
+  border-radius:10px;
+  text-align:center;
+  transition:0.3s;
+}
+
+.box img{
+  width:100%;
+  height:120px;
+  object-fit:cover;
+}
+
+.box:hover{
+  transform:scale(1.05);
+}
+
+/* FOOTER */
+.footer{
+  background:black;
+  color:white;
+  padding:20px;
+  min-height:55vh;
+  text-align: center;
+}
+.footh1{
+    text-align: center;
+    font-size: 2.1rem;
+    font-weight: bolder;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.footer a{color:orange;margin-right:10px;display: grid;margin-bottom: 15px;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+
+  .nav-links{
+    display:none;
+    flex-direction:column;
+    position:absolute;
+    top:59px;
+    right:0;
+    background:black;
+    width:200px;
+  }
+
+  .menu{display:block;}
+
+  .search-box{display:none;}
+  .mobile-search{display:block;}
+
+  .arrow{display:none;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="logo"><span>Ali</span>zon</div>
+
+  <div class="search-box">
+    <select>
+      <option>All</option>
+      <option>Gaming</option>
+      <option>Electronics</option>
+      <option>Clothes</option>
+      <option>Furniture</option>
+      <option>Toys</option>
+      <option>Bags</option>
+      <option>stationsry</option>
+      <option>lights</option>
+    </select>
+    <input type="text" placeholder="Search...">
+    <div class="search-btn"><i class="fas fa-search"></i></div>
+  </div>
+
+  <div class="mobile-search" onclick="openSearch()"><i class="fas fa-search"></i></div>
+
+  <ul class="nav-links">
+    <li>Home</li>
+    <li>Delivery</li>
+    <li>Signup/Login</li>
+    <li>Add Cart </li>
+  </ul>
+
+  <div class="menu" onclick="toggleMenu()">☰</div>
+</div>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="searchOverlay">
+  <input type="text" placeholder="Search here...">
+  <button onclick="closeSearch()"><i class="fas fa-search"></i></button>
+</div>
+
+<!-- SLIDER -->
+<div class="slider">
+  <div class="slides" id="slides">
+    <script>
+      for(let i=1;i<=10;i++){
+        document.write(`<div class="slide"><img src="https://picsum.photos/1200/300?random=${i}"></div>`);
+      }
+    </script>
+  </div>
+
+  <div class="arrow left" onclick="prevSlide()">❮</div>
+  <div class="arrow right" onclick="nextSlide()">❯</div>
+
+  <div class="dots" id="dots"></div>
+</div>
+
+<!-- SECTIONS -->
+<div id="sections"></div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <h1 class="footh1">About us</h1>
+    <br>
+    <p>Email: alizone17@gmail.com</p>
+    <p>phone no: 03147818410</p>
+     <br>
+    <p>
+      Alizone is a modern and reliable e-commerce platform where shopping and business are now easier than ever. Our goal is to provide a shopping environment similar to global giants like Amazon and Daraz, where quality and trust are the top priorities. At Alizone, customers find thousands of products, amazing discounts, and the convenience of fast delivery. Our website is not just for shopping; it also provides excellent opportunities for sellers to grow their businesses.
+  
+
+    </p>
+    <br>
+  <p>
+    <a href="#">TikTok</a>
+    <a href="#">Instagram</a>
+    <a href="#">Facebook</a>
+    <a href="">Youtube</a><a href="">Whatsapp</a><a href="">Telegram</a>
+  </p>
+</div>
+
+<script>
+
+/* MENU */
+function toggleMenu(){
+  let nav = document.querySelector(".nav-links");
+  nav.style.display = nav.style.display === "flex" ? "none" : "flex";
+}
+
+/* SEARCH OVERLAY */
+function openSearch(){
+  document.getElementById("searchOverlay").style.display = "flex";
+}
+function closeSearch(){
+  document.getElementById("searchOverlay").style.display = "none";
+}
+
+/* SLIDER */
+let index = 0;
+let total = 10;
+
+function createDots(){
+  let dots = document.getElementById("dots");
+  for(let i=0;i<total;i++){
+    dots.innerHTML += `<span class="dot" onclick="moveSlide(${i})"></span>`;
+  }
+}
+createDots();
+
+function moveSlide(i){
+  index = i;
+  document.getElementById("slides").style.transform = `translateX(-${i*100}%)`;
+}
+
+function nextSlide(){
+  index++;
+  if(index>=total) index=0;
+  moveSlide(index);
+}
+
+function prevSlide(){
+  index--;
+  if(index<0) index=total-1;
+  moveSlide(index);
+}
+
+setInterval(()=>{
+  nextSlide();
+},4000);
+
+/* SECTIONS */
+let names = ["Gaming","Furniture","Electronics","Clothes","Toys","Shoes","Accessories"];
+
+let container = document.getElementById("sections");
+
+names.forEach(name=>{
+  container.innerHTML += `
+    <div class="section">
+      <h2>${name}</h2>
+      <hr>
+      <div class="scroll" id="${name}"></div>
+    </div>
+  `;
+
+  let grid = document.getElementById(name);
+
+  for(let i=1;i<=25;i++){
+    grid.innerHTML += `
+      <div class="box">
+        <img src="https://picsum.photos/200?random=${i}">
+        <h4>${name} Item ${i}</h4>
+        <p>$${i*10}</p>
+      </div>
+    `;
+  }
+});
+
+</script>
+
+</body>
+</html>
